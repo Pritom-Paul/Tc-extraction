@@ -4,15 +4,16 @@ def extract_net_weight(text):
     net_weights = re.findall(r'Net Weight:\s+([\d.]+)\s*KG', text)
     if net_weights:
         print("NET WEIGHT",net_weights)
-        # return net_weights[0] if net_weights else ''
+        return net_weights
     else:
         print("Net Weight could not be extracted")
+        return None
 
 def extract_gross_weight(text):
     gross_weights = re.findall(r'Gross Weight:\s+([\d.]+)\s*KG', text)
     if gross_weights:    
         print("GROSS WEIGHT", gross_weights)
-        # return gross_weights[0] if gross_weights else ''  
+        return gross_weights
     else:
         print("Gross Weight could not be extracted") 
     
@@ -20,32 +21,38 @@ def extract_quantity_type(text):
     match = re.findall(r'(\S+)\s+USD\s+USD', text)
     if match:    
         print("QUANTITY TYPE", match)
-        # return match[-1] if match else ''
+        return match
     else:
         print("Quantity Type could not be extracted")
+        return None
     
 def extract_pkg_no(text):
     match = re.findall(r'(\S+\sCartons)', text)
     if match:    
         print("PKG NO", match)
+        return match
     else:
         print("PKG NO could not be extracted")
+        return None
+
         
 def extract_invoice_number(text):
     invoice_numbers = re.findall(r'Invoice No:\s*(\d+)', text)
     if invoice_numbers:    
         print("INVOICE NUMBER", invoice_numbers)
-        # return invoice_numbers[0] if invoice_numbers else ''
+        return invoice_numbers
     else:
         print("Invoice Number could not be extracted")
+        return None
         
 def extract_invoice_date(text):
     invoice_dates = re.findall(r'Invoice Date:\s*(\d{2}-\d{2}-\d{4})', text)
     if invoice_dates:
         print("INVOICE DATE:", invoice_dates)
-        # return invoice_dates[0] if invoice_dates else ''
+        return invoice_dates
     else:
         print("Invoice Date could not be extracted")
+        return None
 
 def extract_country_name(text):
     # Find the two-letter codes that appear just before 'Port of Loading:'
@@ -65,18 +72,20 @@ def extract_country_name(text):
     
     if country_names:
         print("COUNTRY NAME", country_names)
-        # return country_names
+        return country_names
     else:
         print("Country Name could not be extracted")
+        return None
 
 def extract_quantity(text):
     quantities = re.findall(r'\b(\d+)\s+\d+\.\d+\s+\d+\.\d+\b', text)
     if quantities:    
         print("QUANTITY", quantities)
-        # return quantities
+        return quantities
     else:
         print("Quantity could not be extracted")
-        
+        return None
+
 def extract_goods_description(text):
     goods_descriptions = []
     lines = text.split('\n')
@@ -92,9 +101,10 @@ def extract_goods_description(text):
             goods_descriptions.append(goods_description)
     if goods_descriptions:
         print("GOODS DESCRIPTION", goods_descriptions)
-        # return goods_descriptions
+        return goods_descriptions
     else:
         print("Goods Description could not be extracted")
+        return None
 
 def extract_goods_composition(text):
     goods_compositions = []
@@ -143,10 +153,11 @@ def extract_goods_composition(text):
             i += 1
     
     if goods_compositions:
-        # return goods_compositions
         print("GOODS COMPOSITION", goods_compositions)
+        return goods_compositions
     else:
         print("Goods Composition could not be extracted")
+        return None
 
 def extract_order_no(text):
     order_nos = []
@@ -157,17 +168,19 @@ def extract_order_no(text):
             order_nos.append(match.group(1))
     if order_nos:    
         print("ORDER NO", order_nos)
-        # return order_nos
+        return order_nos
     else:
         print("Order No could not be extracted")
+        return None
 
 def extract_country_iso(text):
     country_iso_values = re.findall(r'([A-Z]{2})\nPort of Loading:', text)
     if country_iso_values:    
         print("COUNTRY ISO", country_iso_values)
-        # return country_iso_values
+        return country_iso_values
     else :
         print("Country ISO could not be extracted")
+        return None
 
 def extract_mode_of_transport(text):
     # Find the sentence that starts with 'Mode of Transport' and the following line
@@ -183,6 +196,7 @@ def extract_mode_of_transport(text):
     
     if mode_of_transport:
         print("MODE OF TRANSPORT:", mode_of_transport)
-        # return mode_of_transport
+        return mode_of_transport
     else:
         print("Mode of Transport could not be extracted")
+        return None

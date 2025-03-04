@@ -13,6 +13,7 @@ def extract_article_no(text):
         return None
 
 def extract_gender(text):
+    # Find the line that contains 'Customs Customer Group:'
     gender_pattern = r"Customs Customer Group:\s+(.+)"
     match = re.search(gender_pattern, text)
     if match:
@@ -24,9 +25,13 @@ def extract_gender(text):
         return None
 
 def extract_order_no(text):
+    # Find the line that contains 'Order No:'
     order_no_pattern = r"Order No:\s*(\d+-\d+)"
     match = re.search(order_no_pattern, text)
     if match:
         order_no = match.group(1)
         print("ORDER NUMBER:", order_no)
         return order_no
+    else:
+        print("ORDER NUMBER NOT FOUND")
+        return None
