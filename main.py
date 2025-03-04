@@ -2,63 +2,10 @@ import os
 import pandas as pd
 import pdfplumber
 import re
-
-def extract_text_with_pdfplumber(pdf_path):
-    """Extracts text from a PDF using pdfplumber."""
-    try:
-        with pdfplumber.open(pdf_path) as pdf:
-            text = "\n".join(page.extract_text() or "" for page in pdf.pages)
-        return text if text.strip() else ""
-    except Exception as e:
-        print(f"ERROR: Failed to extract text from {pdf_path} - {e}")
-        return ""
-
-def extract_tables_with_pdfplumber(pdf_path):
-    """Extracts tables from a PDF using pdfplumber."""
-    try:
-        with pdfplumber.open(pdf_path) as pdf:
-            return [page.extract_table() for page in pdf.pages if page.extract_table()]
-    except Exception as e:
-        print(f"ERROR: Failed to extract tables from {pdf_path} - {e}")
-        return []
-
-def classify_pdf(text):
-    """Classifies a PDF based on its text content."""
-    if text.startswith("INVOICE"):
-        return "Invoice PDF"
-    elif text.startswith("Purchase Order"):
-        return "Purchase Order PDF"
-    elif text.startswith("SUSTAINABLE TEXTILE PRODUCTS - QUANTITY CONTROL SHEET"):
-        return "Quality Control Sheet PDF"
-    return "Unknown PDF"
-
-def extract_qcValue_from_tables(tables):
-    """Extracts QC values from tables."""
-    try:
-        all_rows = [row for table in tables for row in table if row and any(row)]
-        if len(all_rows) < 3:
-            return None  # Not enough rows
-
-        target_row = all_rows[-3]  # Third-to-last row
-        if len(target_row) >= 17:
-            return {
-                "loss_perct": target_row[7],
-                "raw_cert": target_row[14],
-                "used_qty": target_row[16].replace(" ", ""),
-            }
-    except Exception as e:
-        print(f"ERROR: Failed to extract Quality Control Sheet values - {e}")
-    
-    return None
-
-def extract_accessories_weight(text):
-    """Extracts the 'Per Pcs Accessories Weight' value from the text using regex."""
-    try:
-        match = re.search(r"Per Pcs Accessories Weight\s+([0-9]*\.?[0-9]+)", text)
-        return match.group(1) if match else None
-    except Exception as e:
-        print(f"ERROR: Failed to extract accessories weight - {e}")
-    return None
+from extract_from_qc import *
+from extract_basic import *
+from extract_from_invoices import *
+from extract_from_po import *
 
 def extract_pdf_data(directory):
     """Extracts data from PDFs in a directory and compiles results into a DataFrame."""
@@ -78,12 +25,13 @@ def extract_pdf_data(directory):
         for pdf_file in pdf_files:
             pdf_path = os.path.join(directory, pdf_file)
             text = extract_text_with_pdfplumber(pdf_path)
+            tables = extract_tables_with_pdfplumber(pdf_path)
             if not text:
                 continue  # Skip PDFs with no text
             
             pdf_type = classify_pdf(text)
-            if pdf_type == "Quality Control Sheet PDF":
-                tables = extract_tables_with_pdfplumber(pdf_path)
+            
+            if pdf_type == "Quality Control Sheet PDF":            
                 qc_table_values = extract_qcValue_from_tables(tables)
                 accessories_weight = extract_accessories_weight(text)
 
@@ -91,10 +39,32 @@ def extract_pdf_data(directory):
                     qc_table_values["accessories_weight"] = accessories_weight
                     extracted_values.append(qc_table_values)
 
+            elif pdf_type == "Invoice PDF":
+                # print(text)
+                invoice_number = extract_invoice_number(text)
+                invoice_date = extract_invoice_date(text)
+                order_no = extract_order_no(text)
+                net_weight = extract_net_weight(text)
+                gross_weight = extract_gross_weight(text)
+                quantity_type = extract_quantity_type(text)
+                quantity = extract_quantity(text)
+                goods_description = extract_goods_description(text)
+                goods_composition = extract_goods_composition(text)
+                pkg_no = extract_pkg_no(text)
+                country_name = extract_country_name(text)
+                country_iso = extract_country_iso(text)
+                mode_of_transport = extract_mode_of_transport(text)
+            
+            elif pdf_type == "Purchase Order PDF":
+                # print(text)
+                article_no = extract_article_no(text)
+                gender = extract_gender(text)
+                order_no = extract_order_no(text)                
+
         if extracted_values:
             df = pd.DataFrame(extracted_values)
-            print("\nINFO: Final extracted data:")
-            print(df)
+            # print("\nINFO: Final extracted data:")
+            # print(df)
         else:
             print("\nWARNING: No valid data extracted from any PDF.")
 
