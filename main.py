@@ -35,15 +35,11 @@ def extract_pdf_data(directory):
                 qc_table_values = extract_qcValue_from_tables(tables)
                 accessories_weight = extract_accessories_weight(text)
 
-                if qc_table_values and accessories_weight:
-                    qc_table_values["accessories_weight"] = accessories_weight
-                    extracted_values.append(qc_table_values)
-
             elif pdf_type == "Invoice PDF":
                 # print(text)
                 invoice_number = extract_invoice_number(text)
                 invoice_date = extract_invoice_date(text)
-                order_no = extract_order_no(text)
+                invoice_order_no = extract_order_no_from_invoice(text)
                 net_weight = extract_net_weight(text)
                 gross_weight = extract_gross_weight(text)
                 quantity_type = extract_quantity_type(text)
@@ -59,15 +55,8 @@ def extract_pdf_data(directory):
                 # print(text)
                 article_no = extract_article_no(text)
                 gender = extract_gender(text)
-                order_no = extract_order_no(text)                
-
-        if extracted_values:
-            df = pd.DataFrame(extracted_values)
-            # print("\nINFO: Final extracted data:")
-            # print(df)
-        else:
-            print("\nWARNING: No valid data extracted from any PDF.")
-
+                po_order_no = extract_order_no_from_po(text)                
+                
     except Exception as e:
         print(f"ERROR: An unexpected error occurred - {e}")
 

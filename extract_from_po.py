@@ -24,14 +24,14 @@ def extract_gender(text):
         print("GENDER NOT FOUND")
         return None
 
-def extract_order_no(text):
+def extract_order_no_from_po(text):
     # Find the line that contains 'Order No:'
     order_no_pattern = r"Order No:\s*(\d+-\d+)"
     match = re.search(order_no_pattern, text)
     if match:
         order_no = match.group(1)
-        print("ORDER NUMBER:", order_no)
+        print("ORDER NUMBER FROM PO:", order_no)
         return order_no
     else:
-        print("ORDER NUMBER NOT FOUND")
+        print("ORDER NUMBER FROM PO NOT FOUND")
         return None

@@ -159,7 +159,7 @@ def extract_goods_composition(text):
         print("Goods Composition could not be extracted")
         return None
 
-def extract_order_no(text):
+def extract_order_no_from_invoice(text):
     order_nos = []
     lines = text.split('\n')
     for line in lines:
@@ -167,10 +167,10 @@ def extract_order_no(text):
         if match:
             order_nos.append(match.group(1))
     if order_nos:    
-        print("ORDER NO", order_nos)
+        print("ORDER NO FROM INVOICE", order_nos)
         return order_nos
     else:
-        print("Order No could not be extracted")
+        print("Order No from Invoice could not be extracted")
         return None
 
 def extract_country_iso(text):
