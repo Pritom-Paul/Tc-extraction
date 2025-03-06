@@ -41,7 +41,7 @@ def extract_loss_perct(tables):
         target_row = all_rows[-3]  # Third-to-last row
         if len(target_row) >= 17:
             loss_perct = target_row[7]
-            print("Loss Perct:", loss_perct)
+            # print("Loss Perct:", loss_perct)
             return loss_perct
     except Exception as e:
         print(f"ERROR: Failed to extract Loss Perct - {e}")
@@ -58,8 +58,9 @@ def extract_raw_cert(tables):
 
         target_row = all_rows[-3]  # Third-to-last row
         if len(target_row) >= 17:
-            raw_cert = target_row[14]
-            print("Raw Cert:", raw_cert)
+            raw_cert = target_row[13]
+            # print("Raw Cert:", raw_cert)
+            raw_cert = raw_cert.replace("\n", "")
             return raw_cert
     except Exception as e:
         print(f"ERROR: Failed to extract Raw Cert - {e}")
@@ -77,7 +78,7 @@ def extract_used_qty(tables):
         target_row = all_rows[-3]  # Third-to-last row
         if len(target_row) >= 17:
             used_qty = target_row[16].replace(" ", "")
-            print("Used Qty:", used_qty)
+            # print("Used Qty:", used_qty)
             return used_qty
     except Exception as e:
         print(f"ERROR: Failed to extract Used Qty - {e}")

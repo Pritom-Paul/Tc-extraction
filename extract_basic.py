@@ -10,7 +10,7 @@ def extract_text_with_pdfplumber(pdf_path):
             text = "\n".join(page.extract_text() or "" for page in pdf.pages)
         return text if text.strip() else ""
     except Exception as e:
-        print(f"ERROR: Failed to extract text from {pdf_path} - {e}")
+        # print(f"ERROR: Failed to extract text from {pdf_path} - {e}")
         return ""
 
 def extract_tables_with_pdfplumber(pdf_path):
@@ -19,7 +19,7 @@ def extract_tables_with_pdfplumber(pdf_path):
         with pdfplumber.open(pdf_path) as pdf:
             return [page.extract_table() for page in pdf.pages if page.extract_table()]
     except Exception as e:
-        print(f"ERROR: Failed to extract tables from {pdf_path} - {e}")
+        # print(f"ERROR: Failed to extract tables from {pdf_path} - {e}")
         return []
 
 def classify_pdf(text):

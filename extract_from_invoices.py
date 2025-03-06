@@ -3,7 +3,7 @@ import re
 def extract_net_weight(text):
     net_weights = re.findall(r'Net Weight:\s+([\d.]+)\s*KG', text)
     if net_weights:
-        print("NET WEIGHT",net_weights)
+        # print("NET WEIGHT",net_weights)
         return net_weights
     else:
         print("Net Weight could not be extracted")
@@ -12,7 +12,7 @@ def extract_net_weight(text):
 def extract_gross_weight(text):
     gross_weights = re.findall(r'Gross Weight:\s+([\d.]+)\s*KG', text)
     if gross_weights:    
-        print("GROSS WEIGHT", gross_weights)
+        # print("GROSS WEIGHT", gross_weights)
         return gross_weights
     else:
         print("Gross Weight could not be extracted") 
@@ -20,7 +20,7 @@ def extract_gross_weight(text):
 def extract_quantity_type(text):
     match = re.findall(r'(\S+)\s+USD\s+USD', text)
     if match:    
-        print("QUANTITY TYPE", match)
+        # print("QUANTITY TYPE", match)
         return match
     else:
         print("Quantity Type could not be extracted")
@@ -29,7 +29,7 @@ def extract_quantity_type(text):
 def extract_pkg_no(text):
     match = re.findall(r'(\S+\sCartons)', text)
     if match:    
-        print("PKG NO", match)
+        # print("PKG NO", match)
         return match
     else:
         print("PKG NO could not be extracted")
@@ -39,7 +39,7 @@ def extract_pkg_no(text):
 def extract_invoice_number(text):
     invoice_numbers = re.findall(r'Invoice No:\s*(\d+)', text)
     if invoice_numbers:    
-        print("INVOICE NUMBER", invoice_numbers)
+        # print("INVOICE NUMBER", invoice_numbers)
         return invoice_numbers
     else:
         print("Invoice Number could not be extracted")
@@ -48,7 +48,7 @@ def extract_invoice_number(text):
 def extract_invoice_date(text):
     invoice_dates = re.findall(r'Invoice Date:\s*(\d{2}-\d{2}-\d{4})', text)
     if invoice_dates:
-        print("INVOICE DATE:", invoice_dates)
+        # print("INVOICE DATE:", invoice_dates)
         return invoice_dates
     else:
         print("Invoice Date could not be extracted")
@@ -71,7 +71,7 @@ def extract_country_name(text):
             country_names.append(country_match.group(1).strip())
     
     if country_names:
-        print("COUNTRY NAME", country_names)
+        # print("COUNTRY NAME", country_names)
         return country_names
     else:
         print("Country Name could not be extracted")
@@ -80,7 +80,7 @@ def extract_country_name(text):
 def extract_quantity(text):
     quantities = re.findall(r'\b(\d+)\s+\d+\.\d+\s+\d+\.\d+\b', text)
     if quantities:    
-        print("QUANTITY", quantities)
+        # print("QUANTITY", quantities)
         return quantities
     else:
         print("Quantity could not be extracted")
@@ -100,7 +100,7 @@ def extract_goods_description(text):
                 goods_description += " " + next_line  # Append the next line
             goods_descriptions.append(goods_description)
     if goods_descriptions:
-        print("GOODS DESCRIPTION", goods_descriptions)
+        # print("GOODS DESCRIPTION", goods_descriptions)
         return goods_descriptions
     else:
         print("Goods Description could not be extracted")
@@ -153,7 +153,7 @@ def extract_goods_composition(text):
             i += 1
     
     if goods_compositions:
-        print("GOODS COMPOSITION", goods_compositions)
+        # print("GOODS COMPOSITION", goods_compositions)
         return goods_compositions
     else:
         print("Goods Composition could not be extracted")
@@ -167,7 +167,7 @@ def extract_order_no_from_invoice(text):
         if match:
             order_nos.append(match.group(1))
     if order_nos:    
-        print("ORDER NO FROM INVOICE", order_nos)
+        # print("ORDER NO FROM INVOICE", order_nos)
         return order_nos
     else:
         print("Order No from Invoice could not be extracted")
@@ -176,7 +176,7 @@ def extract_order_no_from_invoice(text):
 def extract_country_iso(text):
     country_iso_values = re.findall(r'([A-Z]{2})\nPort of Loading:', text)
     if country_iso_values:    
-        print("COUNTRY ISO", country_iso_values)
+        # print("COUNTRY ISO", country_iso_values)
         return country_iso_values
     else :
         print("Country ISO could not be extracted")
@@ -195,7 +195,7 @@ def extract_mode_of_transport(text):
             mode_of_transport.append(match.strip())
     
     if mode_of_transport:
-        print("MODE OF TRANSPORT:", mode_of_transport)
+        # print("MODE OF TRANSPORT:", mode_of_transport)
         return mode_of_transport
     else:
         print("Mode of Transport could not be extracted")
