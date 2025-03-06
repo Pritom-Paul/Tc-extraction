@@ -35,3 +35,22 @@ def extract_order_no_from_po(text):
     else:
         print("ORDER NUMBER FROM PO NOT FOUND")
         return None
+
+def extract_country_list(text):
+    terms_list = []
+
+    # Define patterns for extraction
+    patterns = [
+        r'Terms of Delivery\s*\n(.*?)\nTransport by',
+        r'Ship by\s*\n(.*?)\nTransport by'
+    ]
+
+    for pattern in patterns:
+        match = re.search(pattern, text, re.DOTALL)
+        if match:
+            extracted_line = match.group(1).strip()
+            extracted_terms = [term.strip() for term in extracted_line.split(",")]
+            terms_list.extend(extracted_terms)
+
+    print("COUNTRY LIST FROM PO:", terms_list)
+    return terms_list if terms_list else None
