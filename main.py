@@ -7,6 +7,7 @@ from extract_basic import *
 from extract_from_invoices import *
 from extract_from_po import *
 from excel_function import *
+import uuid
 
 def extract_pdf_data(directory):
     """Extracts data from PDFs in a directory and compiles results into a DataFrame."""
@@ -128,6 +129,7 @@ def extract_pdf_data(directory):
         
         # Convert the list of dictionaries into a DataFrame
         df = pd.DataFrame(extracted_values)
+        df["request_id"] = [uuid.uuid4().hex for _ in range(len(df))]
         
         # Check if PO Order No matches Invoice Order No for each row
         for index, row in df.iterrows():
