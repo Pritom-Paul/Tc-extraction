@@ -61,7 +61,16 @@ def extract_raw_cert(tables):
             raw_cert = target_row[13]
             # print("Raw Cert:", raw_cert)
             raw_cert = raw_cert.replace("\n", "")
-            return raw_cert
+            
+            # Check if the whole string is digits
+            if raw_cert.isdigit():
+                return raw_cert
+            
+            # Extract last group of digits
+            match = re.findall(r'\d+', raw_cert)
+            if match:
+                return match[-1]
+            
     except Exception as e:
         print(f"ERROR: Failed to extract Raw Cert - {e}")
     

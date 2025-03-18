@@ -30,4 +30,6 @@ def classify_pdf(text):
         return "Purchase Order PDF"
     elif text.startswith("SUSTAINABLE TEXTILE PRODUCTS - QUANTITY CONTROL SHEET"):
         return "Quality Control Sheet PDF"
-    return "Unknown PDF"
+    else:
+        # print("Unknown PDF type")
+        return "Unknown PDF"

@@ -46,7 +46,7 @@ def extract_invoice_number(text):
         return None
         
 def extract_invoice_date(text):
-    invoice_dates = re.findall(r'Invoice Date:\s*(\d{2}-\d{2}-\d{4})', text)
+    invoice_dates = re.findall(r'Invoice Date:\s*(\d{2}-\d{2}-\d{4}|\d{4}-\d{2}-\d{2})', text)
     if invoice_dates:
         # print("INVOICE DATE:", invoice_dates)
         return invoice_dates
