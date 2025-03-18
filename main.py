@@ -111,22 +111,26 @@ def extract_pdf_data(directory):
         
         if len(set(list_lengths)) != 1:
             print("ERROR: Extracted lists are not of the same length.")
+            for key, value in extracted_values.items():
+                if isinstance(value, list):
+                    print(f"LENGTH CHECK - {key}: {len(value)}")
+            
+            # Additional check for country_iso vs country_list length mismatch
+            if (
+                "country_iso" in extracted_values and
+                "country_list" in extracted_values and
+                isinstance(extracted_values["country_iso"], list) and
+                isinstance(extracted_values["country_list"], list)
+            ):
+                if len(extracted_values["country_iso"]) != len(extracted_values["country_list"]):
+                    print("ERROR: Country ISO codes (Invoice) do not match Country List (PO).")
+                    
+            
             return
         
         if any(length == 0 for length in list_lengths):
             print("ERROR: One or more extracted lists are empty.")
             return
-
-        # Check if country_iso (Invoice) matches country_list (PO)
-        if "country_iso" in extracted_values and "country_list" in extracted_values:
-            country_iso_set = set(extracted_values["country_iso"])
-            country_list_set = set(extracted_values["country_list"])
-            
-            if country_iso_set != country_list_set:
-                print("ERROR: Country ISO codes (Invoice) do not match Country List (PO).")
-                print(f"Country ISO: {country_iso_set}")
-                print(f"Country List: {country_list_set}")
-                return
         
         
         # Convert the list of dictionaries into a DataFrame
